@@ -1,0 +1,8 @@
+Package: panasonic-comfort-cloud
+Version: 0.0.1
+Replaces: panasonic-comfort-cloud
+Section: non-free/misc
+Priority: optional
+Architecture: armhf
+Maintainer: Futurehome AS <support@futurehome.no>
+Description: Manage Panasonic heat pumps via Comfort Cloud

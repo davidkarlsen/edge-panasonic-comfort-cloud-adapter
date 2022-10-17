@@ -1,0 +1,22 @@
+#!/bin/sh
+set -e
+
+case "$1" in
+	remove)
+		echo -n "Stopping and disabling service if present..."
+		systemctl stop panasonic-comfort-cloud.service > /dev/null || true
+		systemctl disable panasonic-comfort-cloud.service > /dev/null || true
+		
+		echo "...OK"
+	;;
+
+	upgrade|failed-upgrade|deconfigure)
+	;;
+
+	*)
+		echo "prerm called with an unknown argument \`$1'" >&2
+		exit 1
+	;;
+esac
+
+exit 0

@@ -1,0 +1,21 @@
+#!/bin/sh
+set -e
+
+case "$1" in
+	upgrade)
+		echo -n "Pausing service if running..."
+		systemctl stop panasonic-comfort-cloud.service > /dev/null
+		
+		echo "...OK"
+	;;
+
+	install|abort-upgrade)
+	;;
+
+	*)
+		echo "preinst called with an unknown argument \`$1'" >&2
+		exit 1
+	;;
+esac
+
+exit 0

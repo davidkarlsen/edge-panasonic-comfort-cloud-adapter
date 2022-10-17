@@ -1,0 +1,10 @@
+{
+  "mqtt_server_uri": "tcp://localhost:11883",
+  "mqtt_client_id_prefix": "panasonic_comfort_cloud_test",
+  "mqtt_server_username": "",
+  "mqtt_server_password": "",
+  "info_file": "../testdata/hub/hub.json",
+  "log_file": "",
+  "log_level": "debug",
+  "log_format": "text"
+}

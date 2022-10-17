@@ -1,0 +1,14 @@
+[Unit]
+Description=Manage Panasonic heat pumps via Comfort Cloud
+
+[Service]
+Type=simple
+ExecStart=/opt/thingsplex/panasonic-comfort-cloud/panasonic-comfort-cloud
+User=panasonic-comfort-cloud
+WorkingDirectory=/opt/thingsplex/panasonic-comfort-cloud
+Restart=always
+StandardOutput=null
+StandardError=null
+
+[Install]
+WantedBy=multi-user.target
