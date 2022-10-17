@@ -5,6 +5,8 @@ go 1.19
 require (
 	github.com/futurehomeno/cliffhanger v0.25.0
 	github.com/futurehomeno/fimpgo v1.11.2
+	github.com/hacktobeer/go-panasonic v1.1.0
+	github.com/samber/lo v1.32.0
 	github.com/sirupsen/logrus v1.9.0
 )
 
@@ -23,3 +25,5 @@ require (
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c // indirect
 )
+
+replace github.com/hacktobeer/go-panasonic => github.com/davidkarlsen/go-panasonic v0.0.0-20220914171741-5d8499da7d6b
