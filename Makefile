@@ -61,7 +61,7 @@ run: build-go
 	cd ./testdata; ../src/$(app_name) -c ./; cd ../
 
 lint:
-	cd src; golangci-lint run; cd ..
+	cd src; go vet ./... ; golangci-lint run; cd ..
 
 test:
 	cd src; go test; cd ..
