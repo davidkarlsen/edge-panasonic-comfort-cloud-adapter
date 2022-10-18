@@ -1,12 +1,13 @@
 package app
 
 import (
+	"context"
 	"fmt"
-
 	"github.com/futurehomeno/cliffhanger/adapter"
 	"github.com/futurehomeno/cliffhanger/app"
 	"github.com/futurehomeno/cliffhanger/lifecycle"
 	"github.com/futurehomeno/cliffhanger/manifest"
+	"github.com/futurehomeno/edge-panasonic-comfort-cloud-adapter/ccontrol"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/futurehomeno/edge-panasonic-comfort-cloud-adapter/internal/config"
@@ -27,6 +28,7 @@ func New(
 		appLifecycle:   appLifecycle,
 		manifestLoader: manifestLoader,
 		adapter:        adapter,
+		cc:             ccontrol.NewCloudControl(),
 	}
 }
 
@@ -36,6 +38,7 @@ type application struct {
 	appLifecycle   *lifecycle.Lifecycle
 	manifestLoader manifest.Loader
 	adapter        adapter.ExtendedAdapter
+	cc             *ccontrol.CloudControl
 }
 
 // GetManifest returns the manifest object based on current application state and configuration.
@@ -90,4 +93,49 @@ func (a application) Uninstall() error {
 	a.appLifecycle.SetAuthState(lifecycle.AuthStateNotAuthenticated)
 
 	return nil
+}
+
+func (a application) createThing() {
+	err := a.adapter.CreateThing(ccontrol.ThermostatThingId, nil)
+	if err != nil {
+		log.Error(err)
+	}
+}
+
+func (a application) Login(credentials *app.LoginCredentials) error {
+	a.appLifecycle.SetAuthState(lifecycle.AuthStateInProgress)
+	err := a.cc.Login(context.TODO(), credentials.Username, credentials.Password)
+	if err != nil {
+		a.appLifecycle.SetAuthState(lifecycle.AuthStateNotAuthenticated)
+		return err
+	}
+	a.appLifecycle.SetAuthState(lifecycle.AuthStateAuthenticated)
+
+	a.appLifecycle.SetConnectionState(lifecycle.ConnStateConnecting)
+	err = a.cc.Init(context.TODO())
+	if err != nil {
+		a.appLifecycle.SetConnectionState(lifecycle.ConnStateDisconnected)
+	} else {
+		a.appLifecycle.SetConnectionState(lifecycle.ConnStateConnected)
+	}
+
+	a.createThing()
+
+	return err
+}
+
+func (a application) Logout() error {
+	log.Info("Logout, NOOP")
+	return nil
+}
+
+func (a application) Check() error {
+	online, err := a.cc.IsOnline()
+	if online {
+		a.appLifecycle.SetConnectionState(lifecycle.ConnStateConnected)
+	} else {
+		a.appLifecycle.SetConnectionState(lifecycle.ConnStateDisconnected)
+	}
+
+	return err
 }

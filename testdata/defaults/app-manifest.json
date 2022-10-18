@@ -1,12 +1,33 @@
 {
   "configs": [
+    {
+      "id": "param_set_temp",
+      "label": {"en":  "Set temperature (C)"},
+      "val_t": "number",
+      "ui": {
+        "type": "input_number"
+      },
+      "val": {"default": 20},
+      "is_required": false,
+      "config_point": "any",
+      "hidden": false
+    }
   ],
   "ui_buttons": [
   ],
   "ui_blocks": [
+    {
+      "id":"block_configure",
+      "header": {"en": "Configure"},
+      "text": {"en": ""},
+      "configs": ["param_set_temp"],
+      "buttons": [],
+      "footer": {"en": "Configure parameters"},
+      "hidden":false
+    }
   ],
   "auth": {
-    "type": "",
+    "type": "password",
     "code_grant_login_page_url": "",
     "redirect_url": "",
     "client_id": "",

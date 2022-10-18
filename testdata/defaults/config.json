@@ -1,10 +1,11 @@
 {
-  "mqtt_server_uri": "tcp://localhost:11883",
+  "mqtt_server_uri": "tcp://futurehome-smarthub.lan.davidkarlsen.com:1884",
   "mqtt_client_id_prefix": "panasonic_comfort_cloud_dev",
-  "mqtt_server_username": "",
-  "mqtt_server_password": "",
+  "mqtt_server_username": "admin",
+  "mqtt_server_password": "admin",
   "info_file": "../testdata/hub/hub.json",
-  "log_file": "../testdata/log/panasonic-comfort-cloud.log",
-  "log_level": "debug",
+  "log_file": "",
+  "Xlog_file": "../testdata/log/panasonic-comfort-cloud.log",
+  "log_level": "trace",
   "log_format": "text"
 }

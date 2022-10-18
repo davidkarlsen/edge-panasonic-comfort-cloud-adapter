@@ -2,7 +2,12 @@ package adapter
 
 import (
 	"github.com/futurehomeno/cliffhanger/adapter"
+	"github.com/futurehomeno/cliffhanger/adapter/service/numericsensor"
+	"github.com/futurehomeno/cliffhanger/adapter/service/thermostat"
+	"github.com/futurehomeno/cliffhanger/adapter/thing"
+	"github.com/futurehomeno/edge-panasonic-comfort-cloud-adapter/ccontrol"
 	"github.com/futurehomeno/fimpgo"
+	"github.com/futurehomeno/fimpgo/fimptype"
 
 	"github.com/futurehomeno/edge-panasonic-comfort-cloud-adapter/internal/config"
 )
@@ -21,7 +26,20 @@ type thingFactory struct {
 
 // Create creates an instance of a thing using provided state.
 func (f *thingFactory) Create(mqtt *fimpgo.MqttTransport, adapter adapter.ExtendedAdapter, thingState adapter.ThingState) (adapter.Thing, error) {
-	// TODO: This is where you create things whenever adapter requests it.
-	//  Usually it happens upon initialization or when adapter is specifically called to create a particular thing.
-	panic("implement me")
+	thingConfig := &thing.ThermostatConfig{
+		InclusionReport: &fimptype.ThingInclusionReport{},
+		ThermostatConfig: &thermostat.Config{
+			Specification: &fimptype.Service{
+				Name: numericsensor.SensorTemp,
+			},
+			Controller: ccontrol.NewCloudControl(),
+		},
+		SensorTempConfig: &numericsensor.Config{
+			Specification: &fimptype.Service{
+				Name: numericsensor.SensorTemp,
+			},
+			Reporter: ccontrol.NewCloudControl(),
+		},
+	}
+	return thing.NewThermostat(mqtt, thingConfig), nil
 }

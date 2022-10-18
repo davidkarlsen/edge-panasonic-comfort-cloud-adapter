@@ -2,11 +2,17 @@ package ccontrol
 
 import (
 	"context"
+	"fmt"
+	"github.com/futurehomeno/cliffhanger/adapter/service/numericsensor"
 	"github.com/futurehomeno/cliffhanger/adapter/service/thermostat"
 	cc "github.com/hacktobeer/go-panasonic/cloudcontrol"
 	"github.com/hacktobeer/go-panasonic/types"
 	"github.com/samber/lo"
 	log "github.com/sirupsen/logrus"
+)
+
+const (
+	ThermostatThingId = "panasonic-indoor-thermostat"
 )
 
 var instance *CloudControl
@@ -64,7 +70,7 @@ func (r *CloudControl) Init(ctx context.Context) error {
 	return nil
 }
 
-/////
+/////controller
 
 // SetThermostatMode sets a new thermostat mode.
 func (r *CloudControl) SetThermostatMode(mode string) error {
@@ -130,4 +136,19 @@ func (r *CloudControl) ThermostatStateReport() (string, error) {
 	}
 
 	return state, nil
+}
+
+/// reporter
+
+func (r *CloudControl) NumericSensorReport(unit string) (float64, error) {
+	if unit == numericsensor.UnitC {
+		device, err := r.cc.GetDeviceStatus()
+		if err == nil {
+			return device.Parameters.InsideTemperature, nil
+		}
+
+		return 0, err
+	}
+
+	return 0, fmt.Errorf("unkown unit: %v", unit)
 }
