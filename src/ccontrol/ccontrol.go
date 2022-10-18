@@ -70,6 +70,15 @@ func (r *CloudControl) Init(ctx context.Context) error {
 	return nil
 }
 
+func (r *CloudControl) SetDevice(ctx context.Context, deviceGuid string) {
+	r.cc.SetDevice(deviceGuid)
+}
+
+func (r *CloudControl) SetTemp(ctx context.Context, temp float64) error {
+	_, err := r.cc.SetTemperature(temp)
+	return err
+}
+
 /////controller
 
 // SetThermostatMode sets a new thermostat mode.

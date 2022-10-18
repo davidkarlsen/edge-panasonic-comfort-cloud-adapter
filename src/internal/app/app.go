@@ -91,6 +91,16 @@ func (a application) Configure(model interface{}) error {
 		return fmt.Errorf("received an invalid configuration")
 	}
 
+	ctx := context.TODO()
+	a.cc.SetDevice(ctx, cfg.ActiveDevice)
+	err := a.cc.SetTemp(ctx, cfg.Temp)
+	if err != nil {
+		return err
+	}
+
+	a.appLifecycle.SetConfigState(lifecycle.ConfigStateConfigured)
+	a.appLifecycle.SetAppState(lifecycle.AppStateRunning, nil)
+
 	// TODO: You may want persist here specific configuration settings provided by the user or act upon them.
 	//  Good examples include adding or removing devices from an adapter.
 

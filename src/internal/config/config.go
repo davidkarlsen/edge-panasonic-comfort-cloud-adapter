@@ -12,7 +12,9 @@ import (
 type Config struct {
 	config.Default
 
-    // TODO: Add specific configuration settings for your application. Don't forget to provide setters and getters where required.
+	ActiveDevice string  `json:"param_heatpump"`
+	Temp         float64 `json:"param_set_temp"`
+	// TODO: Add specific configuration settings for your application. Don't forget to provide setters and getters where required.
 }
 
 // New creates new instance of a configuration object.
