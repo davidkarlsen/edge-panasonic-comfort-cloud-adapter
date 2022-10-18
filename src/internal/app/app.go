@@ -8,6 +8,7 @@ import (
 	"github.com/futurehomeno/cliffhanger/lifecycle"
 	"github.com/futurehomeno/cliffhanger/manifest"
 	"github.com/futurehomeno/edge-panasonic-comfort-cloud-adapter/ccontrol"
+	"github.com/samber/lo"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/futurehomeno/edge-panasonic-comfort-cloud-adapter/internal/config"
@@ -41,6 +42,15 @@ type application struct {
 	cc             *ccontrol.CloudControl
 }
 
+func (a application) getDeviceSelectionOption() []manifest.SelectOption {
+	return lo.Map(a.cc.ListDevices(context.TODO()), func(device string, index int) manifest.SelectOption {
+		return manifest.SelectOption{
+			Val:   device,
+			Label: manifest.MultilingualLabel{"en": device},
+		}
+	})
+}
+
 // GetManifest returns the manifest object based on current application state and configuration.
 func (a application) GetManifest() (*manifest.Manifest, error) {
 	appManifest, err := a.manifestLoader.Load()
@@ -49,6 +59,22 @@ func (a application) GetManifest() (*manifest.Manifest, error) {
 
 		return nil, fmt.Errorf("failed to load the template")
 	}
+
+	configParamHeatpump := manifest.AppConfig{
+		ID: "param_heatpump",
+		Label: manifest.MultilingualLabel{
+			"en": "The heat pump to control",
+		},
+		ValT: "string",
+		UI:   manifest.AppConfigUI{Type: "list_radio", Select: a.getDeviceSelectionOption()},
+		Val: manifest.Value{
+			Default: "",
+		},
+		IsRequired:  true,
+		ConfigPoint: "init",
+		Hidden:      false,
+	}
+	appManifest.Configs = append(appManifest.Configs, configParamHeatpump)
 
 	// TODO: You may want to manipulate the manifest depending on current application state or available configuration.
 	//  Good examples include modifying list of available devices or dynamic options based on API calls and application lifecycle.

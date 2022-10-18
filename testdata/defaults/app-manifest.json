@@ -20,7 +20,7 @@
       "id":"block_configure",
       "header": {"en": "Configure"},
       "text": {"en": ""},
-      "configs": ["param_set_temp"],
+      "configs": ["param_heatpump","param_set_temp"],
       "buttons": [],
       "footer": {"en": "Configure parameters"},
       "hidden":false
