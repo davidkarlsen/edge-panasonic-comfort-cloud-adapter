@@ -41,6 +41,7 @@ jobs:
 
     - name: Test
       run: |
+        docker-compose up -d
         make test
 
     - name: Build
