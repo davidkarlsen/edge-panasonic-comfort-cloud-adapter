@@ -11,7 +11,7 @@ require (
 )
 
 require (
-	github.com/buger/jsonparser v1.0.0 // indirect
+	github.com/buger/jsonparser v1.1.1 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/eclipse/paho.mqtt.golang v1.2.0 // indirect
 	github.com/google/go-cmp v0.5.7 // indirect
