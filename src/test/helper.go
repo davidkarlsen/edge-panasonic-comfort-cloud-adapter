@@ -39,7 +39,7 @@ func TearDown(configSet string) suite.Callback {
 
 func configSetup(t *testing.T, configSet string) *config.Config {
 	cfgSrv := config.NewConfigService(
-	    path.Join("../testdata/testing/", configSet),
+		path.Join("../testdata/testing/", configSet),
 	)
 
 	cmd.SetConfigService(cfgSrv)
