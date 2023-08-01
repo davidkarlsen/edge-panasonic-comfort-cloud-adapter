@@ -1,6 +1,6 @@
 module github.com/futurehomeno/edge-panasonic-comfort-cloud-adapter
 
-go 1.19
+go 1.20
 
 require (
 	github.com/futurehomeno/cliffhanger v0.25.0
