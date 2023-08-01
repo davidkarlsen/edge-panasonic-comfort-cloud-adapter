@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/futurehomeno/cliffhanger v0.25.0
-	github.com/futurehomeno/fimpgo v1.11.2
+	github.com/futurehomeno/fimpgo v1.13.1
 	github.com/hacktobeer/go-panasonic v1.1.0
 	github.com/samber/lo v1.32.0
 	github.com/sirupsen/logrus v1.9.0
